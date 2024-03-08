@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScoreKeeper</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <a href="index.html"><button class="quit">Quit</button></a>
+    <br>
+    <p id="try">Trys: 10</p>
+    <p id="live">Lives: 3</p>
+    <br>
+    <p id="round">Round: 1</p>
+    <br>
+    <p id="score">Score: 0</p>
+    <br>
+    <p id="big">too big: </p>
+    <br>
+    <p id="small">too small: </p>
+    <br>
+    <input type="text" id="count">
+    <button class="log" onclick = "submit()">Log In</button>
+</body>
+<script>
+let stats = {
+        live: 3,
+        round: 1,
+        score: 0,
+        count: "",
+        try: 10,
+        size: {
+            small: "too small: ",
+            big: "too big: ",
+    },
+}
+function check(){
+    stats.count = Math.floor(Math.random()*100+1);
+}
+function submit(){
+    if(document.getElementById('count').value == stats.count){
+        stats.score++
+        alert('Nice😉')
+        next()
+        check()
+    }
+    else{
+        if(stats.try == 1){
+            if(stats.live == 0){
+                document.getElementById("live").innerHTML = '0';
+                alert("You failed😭 \n score: "+stats.score+" \n round: "+stats.round+"\nseeked: "+stats.count)
+                location.href = "index.html";
+            }
+            else{
+                alert("You lost a live😥")
+                stats.live = stats.live-1;
+                document.getElementById('live').innerHTML = "Lives: "+stats.live;
+                check()
+                next()
+            }
+        }
+        else{
+            stats.try = stats.try-1;
+            document.getElementById('try').innerHTML = 'Trys: '+stats.try
+            if(document.getElementById("count").value < stats.count){
+                stats.size.small = stats.size.small.toString()+document.getElementById("count").value.toString()+", ";
+                document.getElementById("small").innerHTML = stats.size.small
+            }
+            else{
+                stats.size.big = stats.size.big.toString()+document.getElementById("count").value.toString()+", ";
+                document.getElementById("big").innerHTML = stats.size.big
+            }
+            }
+    }
+}
+function next(){
+    stats.round++;
+    stats.size.big = 'too big: ';
+    stats.size.small = 'too small: ';
+    stats.try = 10;
+    document.getElementById("big").innerHTML = "too big: ";
+    document.getElementById("small").innerHTML = "too small: ";
+    document.getElementById("try").innerHTML = "Trys: 10";
+    document.getElementById("round").innerHTML = 'Round: '+stats.round;
+    document.getElementById("score").innerHTML = 'Score: '+stats.score;
+}
+check()
+</script>
+</html>
