@@ -13,15 +13,14 @@
     <p id="live">Lives: 3</p>
     <br>
     <p id="round">Round: 1</p>
-    <br>
     <p id="score">Score: 0</p>
     <br>
     <p id="big">too big: </p>
-    <br>
     <p id="small">too small: </p>
     <br>
     <input type="text" id="count" placeholder="answer">
     <button class="log" onclick = "submit()">Log In</button>
+    <button class="Switch" onclick = "backgound()">Switch</button>
 </body>
 <script>
 let stats = {
@@ -34,6 +33,7 @@ let stats = {
             small: "too small: ",
             big: "too big: ",
     },
+    color: "Dark"
 }
 function check(){
     stats.count = Math.floor(Math.random()*100+1);
@@ -86,5 +86,14 @@ function next(){
     document.getElementById("score").innerHTML = 'Score: '+stats.score;
 }
 check()
+function backgound(){
+    if (stats.color == "Dark") {
+        document.body.style.backgroundColor = "White";
+        stats.color = "White"
+    } else {
+        document.body.style.backgroundColor = "rgb(65, 65, 65)";
+        stats.color = "Dark"
+    }
+}
 </script>
 </html>
