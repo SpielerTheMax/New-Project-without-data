@@ -1,61 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>ScoreKeeper</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel='stylesheet' href='style.css'>
 </head>
 <body>
-    <a href="index.html"><button class="quit">Quit</button></a>
+    <a href='index.html'><button class='quit'>Quit</button></a>
+    <button onclick='difficulty("next")'>mode</button>
     <br>
-    <p id="try">Trys: 10</p>
-    <p id="live">Lives: 3</p>
+    <p id='next-mode'>next mode: easy</p>
+    <p id='mode'>mode: easy</p>
     <br>
-    <p id="round">Round: 1</p>
-    <p id="score">Score: 0</p>
+    <p id='try'>Trys: 15</p>
+    <p id='live'>Lives: 3</p>
     <br>
-    <p id="big">too big: </p>
-    <p id="small">too small: </p>
+    <p id='round'>Round: 1</p>
+    <p id='score'>Score: 0</p>
     <br>
-    <input type="text" id="count" placeholder="answer">
-    <button class="log" onclick = "submit()">Log In</button>
-    <button class="Switch" onclick = "backgound()">Switch</button>
+    <p id='big'>too big: </p>
+    <p id='small'>too small: </p>
+    <br>
+    <input type='text' id='count' placeholder='answer'>
+    <button class='log' onclick = 'submit()'>Log In</button>
+    <button class='Switch' onclick = 'backgound()'>Switch</button>
 </body>
 <script>
 let stats = {
+        points: 1,
+        mode: 'easy',
         live: 3,
         round: 1,
         score: 0,
-        count: "",
-        try: 10,
+        count: '',
+        try: 15,
         size: {
-            small: "too small: ",
-            big: "too big: ",
+            small: 'too small: ',
+            big: 'too big: ',
     },
-    color: "Dark"
+    color: 'Dark',
 }
 function check(){
     stats.count = Math.floor(Math.random()*100+1);
 }
 function submit(){
     if(document.getElementById('count').value == stats.count){
-        stats.score++
-        alert('Nice😉')
+        stats.score = stats.score+stats.points;
+        alert('Nice😉\n'+stats.count+' was right.')
         next()
         check()
     }
     else{
         if(stats.try == 1){
             if(stats.live == 0){
-                document.getElementById("live").innerHTML = '0';
-                alert("You failed😭 \n score: "+stats.score+" \n round: "+stats.round+"\nseeked: "+stats.count)
-                location.href = "index.html";
+                document.getElementById('live').innerHTML = '0';
+                alert('You failed😭 \n score: '+stats.score+' \n round: '+stats.round+'\nseeked: '+stats.count)
+                location.href = 'index.html';
             }
             else{
-                alert("You lost a live😥")
+                alert('You lost a live😥\nseeked: '+stats.count)
                 stats.live = stats.live-1;
-                document.getElementById('live').innerHTML = "Lives: "+stats.live;
+                document.getElementById('live').innerHTML = 'Lives: '+stats.live;
                 check()
                 next()
             }
@@ -63,36 +69,70 @@ function submit(){
         else{
             stats.try = stats.try-1;
             document.getElementById('try').innerHTML = 'Trys: '+stats.try
-            if(document.getElementById("count").value < stats.count){
-                stats.size.small = stats.size.small.toString()+document.getElementById("count").value.toString()+", ";
-                document.getElementById("small").innerHTML = stats.size.small
+            if(document.getElementById('count').value < stats.count){
+                stats.size.small = stats.size.small.toString()+document.getElementById('count').value.toString()+', ';
+                document.getElementById('small').innerHTML = stats.size.small
             }
             else{
-                stats.size.big = stats.size.big.toString()+document.getElementById("count").value.toString()+", ";
-                document.getElementById("big").innerHTML = stats.size.big
+                stats.size.big = stats.size.big.toString()+document.getElementById("count").value.toString()+', ';
+                document.getElementById('big').innerHTML = stats.size.big
             }
             }
     }
 }
 function next(){
+    difficulty('set')
     stats.round++;
     stats.size.big = 'too big: ';
     stats.size.small = 'too small: ';
-    stats.try = 10;
-    document.getElementById("big").innerHTML = "too big: ";
-    document.getElementById("small").innerHTML = "too small: ";
-    document.getElementById("try").innerHTML = "Trys: 10";
-    document.getElementById("round").innerHTML = 'Round: '+stats.round;
-    document.getElementById("score").innerHTML = 'Score: '+stats.score;
+    document.getElementById('big').innerHTML = 'too big: ';
+    document.getElementById('small').innerHTML = 'too small: ';
+    document.getElementById('try').innerHTML = 'Trys: '+stats.try;
+    document.getElementById('round').innerHTML = 'Round: '+stats.round;
+    document.getElementById('score').innerHTML = 'Score: '+stats.score;
+    document.getElementById('mode').innerHTML = 'mode: '+stats.mode;
 }
 check()
 function backgound(){
-    if (stats.color == "Dark") {
-        document.body.style.backgroundColor = "White";
-        stats.color = "White"
+    if (stats.color == 'Dark') {
+        document.body.style.backgroundColor = 'White';
+        stats.color = 'White'
     } else {
-        document.body.style.backgroundColor = "rgb(65, 65, 65)";
-        stats.color = "Dark"
+        document.body.style.backgroundColor = 'rgb(65, 65, 65)';
+        stats.color = 'Dark'
+    }
+}
+function difficulty(use){
+    if(use == 'next'){
+        switch(stats.mode){
+            case 'easy':
+                stats.mode = 'normal';
+                break;
+            case 'normal':
+                stats.mode = 'hard';
+                break;
+            case 'hard':
+                stats.mode = 'easy';
+                break;
+        }
+document.getElementById('next-mode').innerHTML = 'next mode: '+stats.mode;
+}
+    else{
+    document.getElementById('mode').innerHTML = 'mode: '+stats.mode;
+    switch(stats.mode){
+            case 'easy':
+                stats.mode = 'hard';
+                stats.try = 15;
+                break;
+            case 'normal':
+               stats.points = 2;
+               stats.try = 10;
+                break;
+            case 'hard':
+                stats.points = 3;
+                stats.try = 7;
+                break;
+        }
     }
 }
 </script>
